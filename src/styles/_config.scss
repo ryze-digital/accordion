@@ -1,0 +1,56 @@
+@use "sass:map";
+@use "@ryze-digital/scss-utilities";
+
+/// Private Variable, die die Akkordeon Standard-Konfiguration beinhaltet.
+/// Zum Ändern der Konfiguration kann das **configure** Mixin verwendet werden.
+/// @access public
+/// @type Map
+/// @prop {Number} padding.right [0] - Rechter Innenabstand für Titel und Content
+/// @prop {Number} padding.left [0] - Linker Innenabstand für Titel und Content
+/// @prop {Number} title.padding.top [scss-utilities.rem-calc(8)]
+/// @prop {Number} title.padding.bottom [scss-utilities.rem-calc(8)]
+/// @prop {Number} content.padding.top [scss-utilities.rem-calc(8)]
+/// @prop {Number} content.padding.bottom [scss-utilities.rem-calc(8)]
+/// @prop {String} icon.position ["after"] - Pseudo-Element für Icon
+/// @prop {Number} icon.top [null] - Positionierung des Icons von oben
+/// @prop {String} icon.closed [null] - Name des Icons im geschlossenen Zustand
+/// @prop {String} icon.opened [null] - Name des Icons im geöffneten Zustand
+/// @prop {Number} icon.spacing [null] - Abstand zwischen Icon und Titel
+
+$_config: (
+    "padding": (
+        "right": 0,
+        "left": 0
+    ),
+    "title": (
+        "padding": (
+            "top": scss-utilities.rem-calc(8),
+            "bottom": scss-utilities.rem-calc(8)
+        )
+    ),
+    "content": (
+        "padding": (
+            "top": scss-utilities.rem-calc(8),
+            "bottom": scss-utilities.rem-calc(8)
+        )
+    ),
+    "icon": (
+        "position": "after",
+        "top": null,
+        "closed": null,
+        "opened": null,
+        "spacing": null
+    )
+);
+
+/// Ermöglicht das Konfigurieren der Akkordeon-Komponente.
+/// @param {Map} $config
+@mixin configure($config) {
+    $_config: map.deep-merge($_config, $config) !global;
+}
+
+/// Ermöglicht Zugriff auf Werte aus der internen Konfiguration.
+/// @param {String} $key
+@function get($key...) {
+    @return map.get($_config, $key...);
+}

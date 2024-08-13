@@ -1,0 +1,47 @@
+{
+  "name": "@ryze-digital/accordion",
+  "description": "Enhances the <details> tag with animations and events ",
+  "license": "UNLICENSED",
+  "version": "0.1.0",
+  "author": "RYZE Digital GmbH <kontakt@ryze-digital.de> (https://www.ryze-digital.de/)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "lint": "npm-run-all --parallel lint:*",
+    "lint:scripts": "eslint src/scripts/**",
+    "lint:styles": "stylelint src/styles/**",
+    "lint-fix": "npm-run-all --parallel lint-fix:*",
+    "lint-fix:scripts": "npm run lint:scripts -- --fix",
+    "lint-fix:styles": "npm run lint:styles -- --fix",
+    "build": "npm-run-all --parallel build:*",
+    "build:scripts": "webpack",
+    "build:styles": "npm run sass:build",
+    "watch": "npm-run-all --parallel watch:*",
+    "watch:scripts": "webpack --watch",
+    "watch:styles": "npm run sass:watch",
+    "sass:build": "sass demos/demo.scss:demos/build/demo.css --no-source-map --load-path=node_modules",
+    "sass:watch": "sass demos/demo.scss:demos/build/demo.css --no-source-map --load-path=node_modules --watch",
+    "prebuild": "node pre-build.js"
+  },
+  "dependencies": {
+    "@ryze-digital/js-utilities": "^1.0.0-beta.0",
+    "@ryze-digital/scss-utilities": "^1.0.0-beta.0"
+  },
+  "devDependencies": {
+    "@ryze-digital/eslint-config-website": "^1.0.0-beta.1",
+    "@ryze-digital/stylelint-config-website": "^1.0.0-beta.0",
+    "npm-run-all": "^4.1.5",
+    "webpack": "^5.93.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "keywords": [
+    "javascript",
+    "js",
+    "accordion",
+    "details"
+  ],
+  "peerDependencies": {
+    "@ryze-digital/js-utilities": "^1.0.0-beta.0",
+    "@ryze-digital/scss-utilities": "^1.0.0-beta.0"
+  }
+}

@@ -1,0 +1,85 @@
+<html lang="de">
+<head>
+    <title>Event Binding Demo - Adventure Accordion</title>
+    <link rel="stylesheet" href="build/demo.css">
+    <meta charset="utf-8">
+</head>
+<body>
+<div class="accordion" data-accordion>
+    <details class="item">
+        <summary class="title" data-title>
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit
+        </summary>
+        <div class="content" data-content>
+            <div>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean
+                    massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec
+                    quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.
+                    Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
+                    imperdiet a, venenatis vitae, justo. Phasellus viverra nulla ut metus varius laoreet. Quisque
+                    rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam
+                    eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero,
+                    sit amet adipiscing sem neque sed ipsum.
+                </p>
+            </div>
+        </div>
+    </details>
+    <details class="item">
+        <summary class="title" data-title>
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit
+        </summary>
+        <div class="content" data-content>
+            <div>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean
+                    massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec
+                    quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.
+                    Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
+                    imperdiet a, venenatis vitae, justo. Phasellus viverra nulla ut metus varius laoreet. Quisque
+                    rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam
+                    eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero,
+                    sit amet adipiscing sem neque sed ipsum.
+                </p>
+            </div>
+        </div>
+    </details>
+</div>
+<script type="module">
+    import {Accordion} from './build/demo.js';
+
+    const accordion = {};
+
+    accordion.el = document.querySelector('[data-accordion]');
+    accordion.instance = new Accordion({
+        el: accordion.el
+    });
+
+    accordion.el.addEventListener('beforeItemClose', () => {
+        console.log('beforeItemClose');
+    });
+
+    accordion.el.addEventListener('afterItemClose', () => {
+        console.log('afterItemClose');
+    });
+
+    accordion.el.addEventListener('beforeItemOpen', () => {
+        console.log('beforeItemOpen');
+    });
+
+    accordion.el.addEventListener('afterItemOpen', () => {
+        console.log('afterItemOpen');
+    });
+
+    accordion.el.addEventListener('afterItemAnimationFinish', () => {
+        console.log('afterItemAnimationFinish');
+    });
+
+    accordion.el.addEventListener('afterItemAnimationCancel', () => {
+        console.log('afterItemAnimationCancel');
+    });
+
+    accordion.instance.init();
+</script>
+</body>
+</html>

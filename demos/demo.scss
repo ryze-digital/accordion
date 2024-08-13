@@ -1,0 +1,13 @@
+@use "../index" as accordion;
+
+.accordion {
+    .item {
+        @include accordion.item();
+    }
+    .title {
+        @include accordion.title();
+    }
+    .content {
+        @include accordion.content();
+    }
+}

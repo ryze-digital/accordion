@@ -1,0 +1,98 @@
+@use "sass:map";
+@use "sass:meta";
+@use "@ryze-digital/scss-utilities";
+@use "config";
+
+/// Fügt "item"-spezifische Stile ein.
+@mixin item() {
+    overflow: hidden;
+}
+
+/// Fügt "title"-spezifische Stile ein.
+/// @param {Number} $icon-spacing [config.get("icon", "spacing")] - reserviert Platz für Icon
+@mixin title($icon-spacing: config.get("icon", "spacing")) {
+    position: relative;
+    display: block;
+    cursor: pointer;
+    outline: none;
+    padding: {
+        top: config.get("title", "padding", "top");
+        bottom: config.get("title", "padding", "bottom");
+    }
+    @if config.get("icon", "position") == "after" {
+        padding: {
+            right: config.get("padding", "right") + $icon-spacing;
+            left: config.get("padding", "left");
+        }
+    } @else {
+        padding: {
+            right: config.get("padding", "right");
+            left: config.get("padding", "left") + $icon-spacing;
+        }
+    }
+    &::-webkit-details-marker {
+        display: none;
+    }
+}
+
+/// Fügt Icon für geschlossenen Zustand des Akkordeons ein.
+@mixin icon-closed() {
+    $icon-closed: config.get("icon", "closed");
+    $top: config.get("icon", "top");
+
+    @if ($icon-closed == null or $icon-closed == "") {
+        @error "The config option icon.closed is not defined. You have to configure icon.closed in order to use the @mixin icon-closed.";
+    }
+
+    &::#{config.get("icon", "position")} {
+        @include scss-utilities.icon($icon-closed);
+        @if $top == null {
+            @include scss-utilities.vertical-center();
+        } @else {
+            position: absolute;
+            top: $top;
+        }
+        @if config.get("icon", "position") == "after" {
+            right: config.get("padding", "right");
+        } @else {
+            left: config.get("padding", "left");
+        }
+        @content;
+    }
+}
+
+/// Fügt Icon für geöffneten Zustand des Akkordeons ein.
+@mixin icon-opened() {
+    $icon-opened: config.get("icon", "opened");
+
+    @if ($icon-opened == null or $icon-opened == "") {
+        @error "The config option icon.opened is not defined. You have to configure icon.opened in order to use the @mixin icon-opened.";
+    }
+
+    &::#{config.get("icon", "position")} {
+        @include scss-utilities.icon($icon-opened, false);
+        @content;
+    }
+}
+
+/// Fügt "content"-spezifische Stile ein.
+@mixin content() {
+    padding: {
+        top: config.get("content", "padding", "top");
+        right: config.get("padding", "right");
+        bottom: config.get("content", "padding", "bottom");
+        left: config.get("padding", "left");
+    }
+    [itemprop="text"] {
+        > :first-child {
+            margin: {
+                top: 0;
+            }
+        }
+        > :last-child {
+            margin: {
+                bottom: 0;
+            }
+        }
+    }
+}
