@@ -1,5 +1,5 @@
-import {Base} from '@ryze-digital/js-utilities';
-import {AccordionItem} from './AccordionItem.js';
+import { Base } from '@ryze-digital/js-utilities';
+import { AccordionItem } from './AccordionItem.js';
 
 /**
  * Erweitert das details-Element um Funktionen wie Deep Linking und Animationen.
@@ -7,15 +7,15 @@ import {AccordionItem} from './AccordionItem.js';
 export class Accordion extends Base {
     /**
      *
-     * @param {Object} options
-     * @param {HTMLElement} [options.el=document.querySelector('[data-accordion]')]
-     * @param {Boolean} [options.allowMultipleOpened=false]
-     * @param {Boolean} [options.allowDeepLink=true]
-     * @param {Object} [options.animation]
-     * @param {Number} [options.animation.duration=400]
-     * @param {String} [options.animation.easing='ease-out']
+     * @param {object} options
+     * @param {HTMLElement} [options.el]
+     * @param {boolean} [options.allowMultipleOpened]
+     * @param {boolean} [options.allowDeepLink]
+     * @param {object} [options.animation]
+     * @param {number} [options.animation.duration]
+     * @param {string} [options.animation.easing='ease-out']
      */
-    constructor (options = {}) {
+    constructor(options = {}) {
         super({
             el: document.querySelector('[data-accordion]'),
             allowMultipleOpened: false,
@@ -30,13 +30,14 @@ export class Accordion extends Base {
             this.options.allowMultipleOpened = true;
         }
     }
+
     /**
      *
-     * @method init
+     * @function init
      * @fires Accordion#afterInit
      * @public
      */
-    init () {
+    init() {
         this.accordionItems = [];
         Array.from(this._getChildren()).forEach((child) => {
             const accordionItemInstance = new AccordionItem({
@@ -56,11 +57,12 @@ export class Accordion extends Base {
          */
         this.emitEvent('afterInit');
     }
+
     /**
      *
      * @private
      */
-    _initByDeepLink () {
+    _initByDeepLink() {
         const accordionItem = this._getDeepLinkedItem();
 
         if (!accordionItem) {
@@ -71,12 +73,13 @@ export class Accordion extends Base {
         accordionItem.open();
         this._scrollIntoView(accordionItem.el);
     }
+
     /**
      *
-     * @method openAllItems
+     * @function openAllItems
      * @public
      */
-    openAllItems () {
+    openAllItems() {
         if (!this.options.allowMultipleOpened) {
             return;
         }
@@ -85,33 +88,35 @@ export class Accordion extends Base {
             accordionItem.open();
         });
     }
+
     /**
      *
-     * @method closeAllItems
+     * @function closeAllItems
      * @public
      */
-    closeAllItems () {
+    closeAllItems() {
         this.accordionItems.forEach((accordionItem) => {
             accordionItem.close();
         });
     }
+
     /**
      *
      * Öffnet ein bestimmtes Item des Akkordeons.
-     * @method open
+     * @function open
      * @param {HTMLElement} el
-     * @param {Boolean} updateUrl
+     * @param {boolean} updateUrl
      * @fires Accordion#beforeItemOpen
      * @fires Accordion#afterItemOpen
      * @public
      */
-    open (el, updateUrl = false) {
+    open(el, updateUrl = false) {
         /**
          * @event Accordion#beforeItemOpen
          * @type {object}
          * @property {HTMLElement} el - Das HTMLElement, welches geöffnet wird
          */
-        this.emitEvent('beforeItemOpen', {el});
+        this.emitEvent('beforeItemOpen', { el });
         this.expand(el);
 
         if (this.options.allowDeepLink && updateUrl && el.id) {
@@ -123,24 +128,25 @@ export class Accordion extends Base {
          * @type {object}
          * @property {HTMLElement} el - Das HTMLElement, welches geöffnet wurde
          */
-        this.emitEvent('afterItemOpen', {el});
+        this.emitEvent('afterItemOpen', { el });
     }
+
     /**
      *
      * Schließt ein bestimmtes Item des Akkordeons.
-     * @method close
+     * @function close
      * @param {HTMLElement} el
      * @fires Accordion#beforeItemClose
      * @fires Accordion#afterItemClose
      * @public
      */
-    close (el) {
+    close(el) {
         /**
          * @event Accordion#beforeItemClose
          * @type {object}
          * @property {HTMLElement} el - Das HTMLElement, welches geschlossen wird
          */
-        this.emitEvent('beforeItemClose', {el});
+        this.emitEvent('beforeItemClose', { el });
         this.shrink(el);
 
         if (this.options.allowDeepLink) {
@@ -152,17 +158,18 @@ export class Accordion extends Base {
          * @type {object}
          * @property {HTMLElement} el - Das HTMLElement, welches geschlossen wurde
          */
-        this.emitEvent('afterItemClose', {el});
+        this.emitEvent('afterItemClose', { el });
     }
+
     /**
      *
      * Startet die Schließen-Animation für ein bestimmtes Item.
      * Überschreibe diese Methode, wenn eigene Schließen-Animation gewünscht ist
-     * @method shrink
+     * @function shrink
      * @param {HTMLElement} el
      * @public
      */
-    shrink (el) {
+    shrink(el) {
         // "open" Attribut erforderlich, sodass Akkordeon-Inhalt für Animation sichtbar ist; denn Browser verstecken den Akkordeon-Inhalt sofort, wenn das "open" Attribut auf dem "details" Element fehlt
         el.open = true;
 
@@ -172,15 +179,16 @@ export class Accordion extends Base {
 
         this._animate(accordionItem, startHeight, endHeight);
     }
+
     /**
      *
      * Startet die Öffnen-Animation für ein bestimmtes Item.
      * Überschreibe diese Methode, wenn eigene Öffnen-Animation gewünscht ist
-     * @method expand
+     * @function expand
      * @param {HTMLElement} el
      * @public
      */
-    expand (el) {
+    expand(el) {
         // "open" Attribut erforderlich, sodass Akkordeon-Inhalt für Animation sichtbar ist; denn Browser verstecken den Akkordeon-Inhalt sofort, wenn das "open" Attribut auf dem "details" Element fehlt
         el.open = true;
 
@@ -192,14 +200,15 @@ export class Accordion extends Base {
 
         this._animate(accordionItem, startHeight, endHeight);
     }
+
     /**
      *
-     * @method destroy
+     * @function destroy
      * @fires Accordion#beforeDestroy
      * @fires Accordion#afterDestroy
      * @public
      */
-    destroy () {
+    destroy() {
         /**
          * @event Accordion#beforeDestroy
          */
@@ -214,16 +223,17 @@ export class Accordion extends Base {
          */
         this.emitEvent('afterDestroy');
     }
+
     /**
      *
      * @param {AccordionItem} item
-     * @param {String} startHeight - Höhe beim Start der Animation (muss Einheit, z.B. "px", enthalten).
-     * @param {String} endHeight - Gewünschte Höhe nach der Animation (muss Einheit, z.B. "px", enthalten).
+     * @param {string} startHeight - Höhe beim Start der Animation (muss Einheit, z.B. "px", enthalten).
+     * @param {string} endHeight - Gewünschte Höhe nach der Animation (muss Einheit, z.B. "px", enthalten).
      * @fires Accordion#afterItemAnimationFinish
      * @fires Accordion#afterItemAnimationCancel
      * @private
      */
-    _animate (item, startHeight, endHeight) {
+    _animate(item, startHeight, endHeight) {
         item.isAnimating = true;
 
         if (item.animation) {
@@ -242,7 +252,7 @@ export class Accordion extends Base {
              * @type {object}
              * @property {HTMLElement} el - Das HTMLElement, auf welchem die Animation ausgeführt wurde
              */
-            this.emitEvent('afterItemAnimationFinish', {el: item.el});
+            this.emitEvent('afterItemAnimationFinish', { el: item.el });
         };
 
         item.animation.oncancel = () => {
@@ -253,65 +263,71 @@ export class Accordion extends Base {
              * @type {object}
              * @property {HTMLElement} el - Das HTMLElement, auf welchem die Animation abgebrochen wurde
              */
-            this.emitEvent('afterItemAnimationCancel', {el: item.el});
+            this.emitEvent('afterItemAnimationCancel', { el: item.el });
         };
     }
+
     /**
      *
-     * @method getItemByElement
+     * @function getItemByElement
      * @param {HTMLElement} el
      * @returns {AccordionItem}
      * @public
      */
-    getItemByElement (el) {
+    getItemByElement(el) {
         const currentItemIndex = Array.from(this.options.el.children).indexOf(el);
 
         return this.accordionItems.filter((accordionItem, accordionItemIndex) => {
             return accordionItemIndex === currentItemIndex;
         })[0];
     }
+
     /**
      *
      * @param {HTMLElement} el
      * @private
      */
-    _scrollIntoView (el) {
+    _scrollIntoView(el) {
         el.scrollIntoView({
             behavior: 'smooth'
         });
     }
+
     /**
      *
      * @returns {AccordionItem}
      * @private
      */
-    _getDeepLinkedItem () {
+    _getDeepLinkedItem() {
         return this.accordionItems.filter((accordionItem) => {
             return window.location.hash === `#${accordionItem.el.id}`;
         })[0];
     }
+
     /**
      *
-     * @param {String} [hash=window.location.pathname]
+     * @param {string} [hash]
      * @private
      */
-    _updateUrl (hash = window.location.pathname) {
+    _updateUrl(hash = window.location.pathname) {
         window.history.replaceState(null, null, hash);
     }
+
     /**
      *
      * @returns {HTMLCollection}
      * @private
      */
-    _getChildren () {
+    _getChildren() {
         return this.options.el.children;
     }
+
     /**
      *
      * @returns {Array}
      * @private
      */
-    _getOpenedChildren () {
+    _getOpenedChildren() {
         const children = Array.from(this._getChildren());
 
         return children.filter((child) => {

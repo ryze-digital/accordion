@@ -1,4 +1,4 @@
-import {Base} from '@ryze-digital/js-utilities';
+import { Base } from '@ryze-digital/js-utilities';
 
 /**
  * Enthält States und Events eines einzelnen Akkordeon Items.
@@ -6,11 +6,11 @@ import {Base} from '@ryze-digital/js-utilities';
  */
 export class AccordionItem extends Base {
     /**
-     * @param {Object} options
+     * @param {object} options
      * @param {Accordion} options.accordion
      * @param {HTMLElement} options.el
      */
-    constructor (options = {}) {
+    constructor(options = {}) {
         super({}, options);
 
         this._isOpen = false;
@@ -19,17 +19,19 @@ export class AccordionItem extends Base {
 
         this._bindEvents();
     }
+
     /**
      * @private
      */
-    _bindEvents () {
+    _bindEvents() {
         this.on(this._title, 'click', (event) => {
             event.preventDefault();
 
             this.toggle();
         });
     }
-    toggle () {
+
+    toggle() {
         if (!this.isAnimating && !this.el.open) {
             if (!this.options.accordion.options.allowMultipleOpened) {
                 this.options.accordion.closeAllItems();
@@ -42,15 +44,17 @@ export class AccordionItem extends Base {
 
         this.close();
     }
+
     /**
-     * @param {Boolean} updateUrl
+     * @param {boolean} updateUrl
      */
-    open (updateUrl = false) {
+    open(updateUrl = false) {
         this._isOpen = true;
         this.el.open = true;
         this.options.accordion.open(this.el, updateUrl);
     }
-    close () {
+
+    close() {
         if (!this.el.open) {
             return;
         }
@@ -59,36 +63,43 @@ export class AccordionItem extends Base {
         this.el.open = false;
         this.options.accordion.close(this.el);
     }
-    destroy () {
+
+    destroy() {
         if (this.animation) {
             this.animation.cancel();
         }
 
         this.offAll();
     }
+
     /**
-     * @param {Boolean} isOpen
+     * @param {boolean} isOpen
      */
-    resetItemStates (isOpen) {
+    resetItemStates(isOpen) {
         this.isAnimating = false;
         this.el.open = isOpen;
         this.el.style.height = '';
         this.animation = null;
     }
-    resetAnimationStates () {
+
+    resetAnimationStates() {
         this.isAnimating = false;
         this.animation = null;
     }
-    get isOpen () {
+
+    get isOpen() {
         return this._isOpen;
     }
-    get title () {
+
+    get title() {
         return this._title;
     }
-    get content () {
+
+    get content() {
         return this._content;
     }
-    get el () {
+
+    get el() {
         return this.options.el;
     }
 }
