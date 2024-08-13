@@ -1,5 +1,7 @@
 # RYZE Digital Accordion
 
+![Run linter(s) workflow status](https://github.com/ryze-digital/accordion/actions/workflows/run-lint.yml/badge.svg)
+
 ## Install
 
 ```sh
