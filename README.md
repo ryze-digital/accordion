@@ -51,7 +51,7 @@ There is a separate mixin for each element in the accordion so styles can be app
 ### JavaScript
 
 ```js
-import {Accordion} from '@ryze-digital/accordion';
+import { Accordion } from '@ryze-digital/accordion';
 
 new Accordion({...}).init();
 ```
