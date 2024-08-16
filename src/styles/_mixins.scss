@@ -40,13 +40,13 @@
     $icon-closed: config.get("icon", "closed");
     $top: config.get("icon", "top");
 
-    @if $icon-closed == null or $icon-closed == "" {
+    @if not $icon-closed null or $icon-closed == "" {
         @error "The config option icon.closed is not defined. You have to configure icon.closed in order to use the @mixin icon-closed.";
     }
 
     &::#{config.get("icon", "position")} {
         @include scss-utilities.icon($icon-closed);
-        @if $top == null {
+        @if not $top {
             @include scss-utilities.vertical-center();
         } @else {
             position: absolute;
@@ -65,7 +65,7 @@
 @mixin icon-opened() {
     $icon-opened: config.get("icon", "opened");
 
-    @if $icon-opened == null or $icon-opened == "" {
+    @if not $icon-opened or $icon-opened == "" {
         @error "The config option icon.opened is not defined. You have to configure icon.opened in order to use the @mixin icon-opened.";
     }
 

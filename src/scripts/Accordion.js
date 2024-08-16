@@ -13,7 +13,7 @@ export class Accordion extends Base {
      * @param {boolean} [options.allowDeepLink]
      * @param {object} [options.animation]
      * @param {number} [options.animation.duration]
-     * @param {string} [options.animation.easing='ease-out']
+     * @param {string} [options.animation.easing]
      */
     constructor(options = {}) {
         super({

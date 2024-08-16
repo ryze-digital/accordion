@@ -7,7 +7,7 @@ import { Base } from '@ryze-digital/js-utilities';
 export class AccordionItem extends Base {
     /**
      * @param {object} options
-     * @param {Accordion} options.accordion
+     * @param {object} options.accordion
      * @param {HTMLElement} options.el
      */
     constructor(options = {}) {
@@ -87,18 +87,30 @@ export class AccordionItem extends Base {
         this.animation = null;
     }
 
+    /**
+     * @returns {boolean}
+     */
     get isOpen() {
         return this._isOpen;
     }
 
+    /**
+     * @returns {HTMLElement}
+     */
     get title() {
         return this._title;
     }
 
+    /**
+     * @returns {HTMLElement}
+     */
     get content() {
         return this._content;
     }
 
+    /**
+     * @returns {HTMLElement}
+     */
     get el() {
         return this.options.el;
     }
