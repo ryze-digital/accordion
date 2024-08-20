@@ -10,6 +10,31 @@ npm i @ryze-digital/accordion
 
 ## Usage
 
+### HTML
+
+Class names can be changed if necessary, as long as you include the mixins (see Scss) correctly.
+
+```html
+<div class="accordion" data-accordion>
+    <details class="item">
+        <summary class="title" data-title>
+            Your accordion title 1
+        </summary>
+        <div class="content" data-content>
+            Your accordion content 1
+        </div>
+    </details>
+    <details class="item">
+        <summary class="title" data-title>
+            Your accordion title 2
+        </summary>
+        <div class="content" data-content>
+            Your accordion content 2
+        </div>
+    </details>
+</div>
+```
+
 ### Scss
 
 ```scss
@@ -44,9 +69,6 @@ There is a separate mixin for each element in the accordion so styles can be app
     }
 }
 ```
-
-
-
 
 ### JavaScript
 
