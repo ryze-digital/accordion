@@ -6,13 +6,20 @@ import { Base } from '@ryze-digital/js-utilities';
  */
 export class AccordionItem extends Base {
     /**
+     * @type {boolean}
+     */
+    #isExclusive;
+
+    /**
      * @param {object} options
      * @param {object} options.accordion
      * @param {HTMLElement} options.el
+     * @param {boolean} isExclusive
      */
-    constructor(options = {}) {
+    constructor(options = {}, isExclusive) {
         super({}, options);
 
+        this.#isExclusive = isExclusive;
         this._isOpen = false;
         this._title = this.el.querySelector('[data-title]');
         this._content = this.el.querySelector('[data-content]');
@@ -33,7 +40,7 @@ export class AccordionItem extends Base {
 
     toggle() {
         if (!this.isAnimating && !this.el.open) {
-            if (!this.options.accordion.options.allowMultipleOpened) {
+            if (this.#isExclusive) {
                 this.options.accordion.closeAllItems();
             }
 

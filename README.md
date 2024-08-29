@@ -12,7 +12,9 @@ npm i @ryze-digital/accordion
 
 ### HTML
 
-Class names can be changed if necessary, as long as you include the mixins (see Scss) correctly.
+Class names can be changed if necessary, as long as you include the mixins (see Scss) correctly. If you want to prevent
+multiple accordions from being opened at the same time, you must assign a `name` attribute with the same value to each
+`<details>` element.
 
 ```html
 <div class="accordion" data-accordion>
@@ -109,7 +111,6 @@ new Accordion({...}).init();
 | Option              | Type        | Default                                                                           | Description                                                               |
 |---------------------|-------------|-----------------------------------------------------------------------------------|---------------------------------------------------------------------------|
 | el                  | HTMLElement | `document.querySelector('[data-accordion]')`                                      | Container to which the library should be bound                            |
-| allowMultipleOpened | boolean     | `false`                                                                           | Should it be possible to have multiple accordions opened at the same time |
 | allowDeepLink       | boolean     | `true`                                                                            | Open and scroll to accordion item based on URL hash                       |
 | animation           | object      | <pre>{<br>&nbsp;&nbsp;duration: 400,<br>&nbsp;&nbsp;easing: 'ease-out'<br>}</pre> |                                                                           |
 
@@ -120,5 +121,6 @@ new Accordion({...}).init();
 Checkout this repository and use the [/demos](/demos) folder as document root to see a running demo in the browser. 
 
 - [Basic use case](/demos/basic.html)
+- [Only one open](/demos/only-one-open.html)
 - [FAQ](/demos/faq.html)
-- [Event Binding](/demos/event-binding.html)
+- [Event binding](/demos/event-binding.html)

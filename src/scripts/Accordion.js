@@ -6,6 +6,16 @@ import { AccordionItem } from './AccordionItem.js';
  */
 export class Accordion extends Base {
     /**
+     * @type {boolean}
+     */
+    #isExclusive = false;
+
+    /**
+     * @type {Array}
+     */
+    #children;
+
+    /**
      *
      * @param {object} options
      * @param {HTMLElement} [options.el]
@@ -18,7 +28,6 @@ export class Accordion extends Base {
     constructor(options = {}) {
         super({
             el: document.querySelector('[data-accordion]'),
-            allowMultipleOpened: false,
             allowDeepLink: true,
             animation: {
                 duration: 400,
@@ -26,9 +35,21 @@ export class Accordion extends Base {
             }
         }, options);
 
-        if (this._getOpenedChildren().length > 1) {
-            this.options.allowMultipleOpened = true;
-        }
+        this.#children = Array.from(this.options.el.children);
+        this.#isExclusive = this.#hasSameNames();
+    }
+
+    /**
+     * @returns {boolean}
+     */
+    #hasSameNames() {
+        const names = this.#children.map((details) => {
+            return details.getAttribute('name');
+        });
+
+        return names.every((name, index, array) => {
+            return name === array[0] && name !== null;
+        });
     }
 
     /**
@@ -39,11 +60,11 @@ export class Accordion extends Base {
      */
     init() {
         this.accordionItems = [];
-        Array.from(this._getChildren()).forEach((child) => {
+        this.#children.forEach((child) => {
             const accordionItemInstance = new AccordionItem({
                 accordion: this,
                 el: child
-            });
+            }, this.#isExclusive);
 
             this.accordionItems.push(accordionItemInstance);
         });
@@ -80,7 +101,7 @@ export class Accordion extends Base {
      * @public
      */
     openAllItems() {
-        if (!this.options.allowMultipleOpened) {
+        if (this.#isExclusive) {
             return;
         }
 
@@ -275,7 +296,7 @@ export class Accordion extends Base {
      * @public
      */
     getItemByElement(el) {
-        const currentItemIndex = Array.from(this.options.el.children).indexOf(el);
+        const currentItemIndex = this.#children.indexOf(el);
 
         return this.accordionItems.filter((accordionItem, accordionItemIndex) => {
             return accordionItemIndex === currentItemIndex;
@@ -315,22 +336,11 @@ export class Accordion extends Base {
 
     /**
      *
-     * @returns {HTMLCollection}
-     * @private
-     */
-    _getChildren() {
-        return this.options.el.children;
-    }
-
-    /**
-     *
      * @returns {Array}
      * @private
      */
     _getOpenedChildren() {
-        const children = Array.from(this._getChildren());
-
-        return children.filter((child) => {
+        return this.#children.filter((child) => {
             return child.open;
         });
     }
