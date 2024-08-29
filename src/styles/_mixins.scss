@@ -40,7 +40,7 @@
     $icon-closed: config.get("icon", "closed");
     $top: config.get("icon", "top");
 
-    @if not $icon-closed null or $icon-closed == "" {
+    @if not $icon-closed or $icon-closed == "" {
         @error "The config option icon.closed is not defined. You have to configure icon.closed in order to use the @mixin icon-closed.";
     }
 
