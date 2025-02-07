@@ -20,27 +20,27 @@
 $-config: (
     "padding": (
         "right": 0,
-        "left": 0
+        "left": 0,
     ),
     "title": (
         "padding": (
             "top": scss-utilities.rem-calc(8),
-            "bottom": scss-utilities.rem-calc(8)
-        )
+            "bottom": scss-utilities.rem-calc(8),
+        ),
     ),
     "content": (
         "padding": (
             "top": scss-utilities.rem-calc(8),
-            "bottom": scss-utilities.rem-calc(8)
-        )
+            "bottom": scss-utilities.rem-calc(8),
+        ),
     ),
     "icon": (
         "position": "after",
         "top": null,
         "closed": null,
         "opened": null,
-        "spacing": null
-    )
+        "spacing": null,
+    ),
 );
 
 /// Ermöglicht das Konfigurieren der Akkordeon-Komponente.
