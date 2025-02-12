@@ -13,7 +13,7 @@
     "lint:styles": "stylelint src/styles/**",
     "lint-fix": "npm-run-all --parallel lint-fix:*",
     "lint-fix:scripts": "npm run lint:scripts -- --fix",
-    "lint-fix:styles": "npm run lint:styles -- --fix && prettier src/styles/** --write",
+    "lint-fix:styles": "prettier src/styles/** --write && npm run lint:styles -- --fix",
     "build": "npm-run-all --parallel build:*",
     "build:scripts": "webpack",
     "build:styles": "npm run sass:build",
