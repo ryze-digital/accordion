@@ -48,7 +48,6 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Basis-Klasse zur einheitlichen Verwendung von Events und Optionen.
  * Jede Adventure-Komponente leitet von dieser Basis-Klasse ab.
- *
  * @example
  * export class Example extends adventure.Base {
  *     constructor () {
@@ -147,7 +146,7 @@ class Base {
 
     /**
      * @param {string} name
-     * @param {object} [data={}]
+     * @param {object} [data]
      * @param {Element} el
      */
     emitEvent(name = '', data = {}, el = this.options.el) {
@@ -160,7 +159,6 @@ class Base {
 
     /**
      * Fügt einem oder mehreren Elementen ein Event hinzu.
-     *
      * @param {Node|NodeList} selector
      * @param {string} eventName
      * @param {Function} callback
@@ -179,7 +177,6 @@ class Base {
 
     /**
      * Entfernt einem Element oder mehreren Elementen das übergebene Event.
-     *
      * @param {Node|NodeList} selector
      * @param {string} [eventName] - Kann ausgelassen werden, um alle Events zu entfernen.
      */
@@ -217,7 +214,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /**
  * Stellt in adventure-scss definierte Breakpoints im JavaScript zur Verfügung
- *
  * @example
  * const {breakpoints} = new adventure.BreakpointProvider();
  *
@@ -281,7 +277,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /**
  * Konvertiert ein Date-Objekt zur Verwendung mit input[type="date"] und input[type="time"]
- *
  * @example
  * const dateToInputConverter = new adventure.DateToInputConverter();
  *
@@ -289,7 +284,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 class DateToInputConverter {
     constructor() {
-        // eslint-disable-next-line prefer-rest-params
+         
         this.dateObj = new Date(...arguments);
     }
 
@@ -355,7 +350,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /**
  * Setzt Klasse während ein Element "sticky" ist
- *
  * @see https://davidwalsh.name/detect-sticky
  * @example
  * const element = document.getElementById('id');
@@ -409,7 +403,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /**
  * Verifiziert ein Fonts.net Projekt asynchron
- *
  * @example
  * new adventure.FontVerification('your fonts.net project ID');
  */
@@ -460,7 +453,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /**
  * Reduziert Funktionsaufrufe
- *
  * @example
  * window.addEventListener('resize', adventure.ReduceFunctionCalls.throttle(() => {...}));
  */
@@ -473,11 +465,11 @@ class ReduceFunctionCalls {
      * @returns {Function}
      * @see https://codeburst.io/throttling-and-debouncing-in-javascript-b01cad5c8edf
      */
-    static throttle(callback, delay = 250, scope = this, ...args) {
+    static throttle(callback, delay = 250, scope = this) {
         let timeout;
         let lastRan;
 
-        return () => {
+        return (...args) => {
             if (!lastRan) {
                 callback.apply(scope, args);
                 lastRan = Date.now();
@@ -502,10 +494,10 @@ class ReduceFunctionCalls {
      * @returns {Function}
      * @see https://davidwalsh.name/javascript-debounce-function
      */
-    static debounce(callback, delay = 250, scope = this, ...args) {
+    static debounce(callback, delay = 250, scope = this) {
         let timeout;
 
-        return () => {
+        return (...args) => {
             const debouncedCallback = () => {
                 timeout = null;
 
@@ -533,7 +525,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /**
  * DOM-Zugriffe, die nicht mit CSS möglich sind
- *
  * @example
  * document.querySelector('button').addEventListener('click', (event) => {
  *     const siblings = adventure.Selectors.siblings(event.target);
@@ -574,6 +565,16 @@ __webpack_require__.r(__webpack_exports__);
  */
 class Accordion extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_0__.Base {
     /**
+     * @type {boolean}
+     */
+    #isExclusive = false;
+
+    /**
+     * @type {Array}
+     */
+    #children;
+
+    /**
      *
      * @param {object} options
      * @param {HTMLElement} [options.el]
@@ -586,7 +587,6 @@ class Accordion extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_0__.
     constructor(options = {}) {
         super({
             el: document.querySelector('[data-accordion]'),
-            allowMultipleOpened: false,
             allowDeepLink: true,
             animation: {
                 duration: 400,
@@ -594,9 +594,21 @@ class Accordion extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_0__.
             }
         }, options);
 
-        if (this._getOpenedChildren().length > 1) {
-            this.options.allowMultipleOpened = true;
-        }
+        this.#children = Array.from(this.options.el.children);
+        this.#isExclusive = this.#hasSameNames();
+    }
+
+    /**
+     * @returns {boolean}
+     */
+    #hasSameNames() {
+        const names = this.#children.map((details) => {
+            return details.getAttribute('name');
+        });
+
+        return names.every((name, index, array) => {
+            return name === array[0] && name !== null;
+        });
     }
 
     /**
@@ -607,11 +619,11 @@ class Accordion extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_0__.
      */
     init() {
         this.accordionItems = [];
-        Array.from(this._getChildren()).forEach((child) => {
+        this.#children.forEach((child) => {
             const accordionItemInstance = new _AccordionItem_js__WEBPACK_IMPORTED_MODULE_1__.AccordionItem({
                 accordion: this,
                 el: child
-            });
+            }, this.#isExclusive);
 
             this.accordionItems.push(accordionItemInstance);
         });
@@ -648,7 +660,7 @@ class Accordion extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_0__.
      * @public
      */
     openAllItems() {
-        if (!this.options.allowMultipleOpened) {
+        if (this.#isExclusive) {
             return;
         }
 
@@ -717,7 +729,7 @@ class Accordion extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_0__.
         this.emitEvent('beforeItemClose', { el });
         this.shrink(el);
 
-        if (this.options.allowDeepLink) {
+        if (this.options.allowDeepLink && `#${el.id}` === window.location.hash) {
             this._updateUrl();
         }
 
@@ -843,7 +855,7 @@ class Accordion extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_0__.
      * @public
      */
     getItemByElement(el) {
-        const currentItemIndex = Array.from(this.options.el.children).indexOf(el);
+        const currentItemIndex = this.#children.indexOf(el);
 
         return this.accordionItems.filter((accordionItem, accordionItemIndex) => {
             return accordionItemIndex === currentItemIndex;
@@ -883,22 +895,11 @@ class Accordion extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_0__.
 
     /**
      *
-     * @returns {HTMLCollection}
-     * @private
-     */
-    _getChildren() {
-        return this.options.el.children;
-    }
-
-    /**
-     *
      * @returns {Array}
      * @private
      */
     _getOpenedChildren() {
-        const children = Array.from(this._getChildren());
-
-        return children.filter((child) => {
+        return this.#children.filter((child) => {
             return child.open;
         });
     }
@@ -925,13 +926,20 @@ __webpack_require__.r(__webpack_exports__);
  */
 class AccordionItem extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_0__.Base {
     /**
+     * @type {boolean}
+     */
+    #isExclusive;
+
+    /**
      * @param {object} options
      * @param {object} options.accordion
      * @param {HTMLElement} options.el
+     * @param {boolean} isExclusive
      */
-    constructor(options = {}) {
+    constructor(options = {}, isExclusive) {
         super({}, options);
 
+        this.#isExclusive = isExclusive;
         this._isOpen = false;
         this._title = this.el.querySelector('[data-title]');
         this._content = this.el.querySelector('[data-content]');
@@ -952,7 +960,7 @@ class AccordionItem extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_
 
     toggle() {
         if (!this.isAnimating && !this.el.open) {
-            if (!this.options.accordion.options.allowMultipleOpened) {
+            if (this.#isExclusive) {
                 this.options.accordion.closeAllItems();
             }
 
@@ -1007,28 +1015,28 @@ class AccordionItem extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_
     }
 
     /**
-     *
+     * @returns {boolean}
      */
     get isOpen() {
         return this._isOpen;
     }
 
     /**
-     *
+     * @returns {HTMLElement}
      */
     get title() {
         return this._title;
     }
 
     /**
-     *
+     * @returns {HTMLElement}
      */
     get content() {
         return this._content;
     }
 
     /**
-     *
+     * @returns {HTMLElement}
      */
     get el() {
         return this.options.el;
@@ -1094,6 +1102,8 @@ class AccordionItem extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_
 /******/ 
 /************************************************************************/
 var __webpack_exports__ = {};
+// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
+(() => {
 /*!******************!*\
   !*** ./index.js ***!
   \******************/
@@ -1105,5 +1115,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var __webpack_exports__Accordion = __webpack_exports__.Accordion;
+})();
+
+const __webpack_exports__Accordion = __webpack_exports__.Accordion;
 export { __webpack_exports__Accordion as Accordion };
