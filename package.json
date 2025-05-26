@@ -25,15 +25,15 @@
     "prebuild": "node pre-build.js"
   },
   "dependencies": {
-    "@ryze-digital/js-utilities": "^1.0.0-beta.0",
-    "@ryze-digital/scss-utilities": "^1.0.0-beta.0"
+    "@ryze-digital/js-utilities": "^1.0.0",
+    "@ryze-digital/scss-utilities": "^1.0.0"
   },
   "devDependencies": {
     "@ryze-digital/eslint-config-website": "^1.0.0",
     "@ryze-digital/prettier-config-website": "^1.0.1",
     "@ryze-digital/stylelint-config-website": "^1.0.0",
     "npm-run-all": "^4.1.5",
-    "webpack": "^5.97.1",
+    "webpack": "^5.99.9",
     "webpack-cli": "^5.1.4"
   },
   "keywords": [
@@ -43,7 +43,7 @@
     "details"
   ],
   "peerDependencies": {
-    "@ryze-digital/js-utilities": "^1.0.0-beta.0",
-    "@ryze-digital/scss-utilities": "^1.0.0-beta.0"
+    "@ryze-digital/js-utilities": "^1.0.0",
+    "@ryze-digital/scss-utilities": "^1.0.0"
   }
 }
