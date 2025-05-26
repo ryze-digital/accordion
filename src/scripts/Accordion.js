@@ -170,7 +170,7 @@ export class Accordion extends Base {
         this.emitEvent('beforeItemClose', { el });
         this.shrink(el);
 
-        if (this.options.allowDeepLink) {
+        if (this.options.allowDeepLink && `#${el.id}` === window.location.hash) {
             this._updateUrl();
         }
 
