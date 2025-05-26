@@ -5,7 +5,7 @@
 ## Install
 
 ```sh
-npm i @ryze-digital/accordion
+npm i @ryze-digital/accordion --save
 ```
 
 ## Usage
