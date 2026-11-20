@@ -1,5 +1,5 @@
-import { Base } from '@ryze-digital/js-utilities';
-import { AccordionItem } from './AccordionItem.js';
+import { Base } from "@ryze-digital/js-utilities";
+import { AccordionItem } from "./AccordionItem.js";
 
 /**
  * Erweitert das details-Element um Funktionen wie Deep Linking und Animationen.
@@ -26,14 +26,17 @@ export class Accordion extends Base {
      * @param {string} [options.animation.easing]
      */
     constructor(options = {}) {
-        super({
-            el: document.querySelector('[data-accordion]'),
-            allowDeepLink: true,
-            animation: {
-                duration: 400,
-                easing: 'ease-out'
-            }
-        }, options);
+        super(
+            {
+                el: document.querySelector("[data-accordion]"),
+                allowDeepLink: true,
+                animation: {
+                    duration: 400,
+                    easing: "ease-out",
+                },
+            },
+            options,
+        );
 
         this.#children = Array.from(this.options.el.children);
         this.#isExclusive = this.#hasSameNames();
@@ -44,7 +47,7 @@ export class Accordion extends Base {
      */
     #hasSameNames() {
         const names = this.#children.map((details) => {
-            return details.getAttribute('name');
+            return details.getAttribute("name");
         });
 
         return names.every((name, index, array) => {
@@ -61,10 +64,13 @@ export class Accordion extends Base {
     init() {
         this.accordionItems = [];
         this.#children.forEach((child) => {
-            const accordionItemInstance = new AccordionItem({
-                accordion: this,
-                el: child
-            }, this.#isExclusive);
+            const accordionItemInstance = new AccordionItem(
+                {
+                    accordion: this,
+                    el: child,
+                },
+                this.#isExclusive,
+            );
 
             this.accordionItems.push(accordionItemInstance);
         });
@@ -76,7 +82,7 @@ export class Accordion extends Base {
         /**
          * @event Accordion#afterInit
          */
-        this.emitEvent('afterInit');
+        this.emitEvent("afterInit");
     }
 
     /**
@@ -137,7 +143,7 @@ export class Accordion extends Base {
          * @type {object}
          * @property {HTMLElement} el - Das HTMLElement, welches geöffnet wird
          */
-        this.emitEvent('beforeItemOpen', { el });
+        this.emitEvent("beforeItemOpen", { el });
         this.expand(el);
 
         if (this.options.allowDeepLink && updateUrl && el.id) {
@@ -149,7 +155,7 @@ export class Accordion extends Base {
          * @type {object}
          * @property {HTMLElement} el - Das HTMLElement, welches geöffnet wurde
          */
-        this.emitEvent('afterItemOpen', { el });
+        this.emitEvent("afterItemOpen", { el });
     }
 
     /**
@@ -167,7 +173,7 @@ export class Accordion extends Base {
          * @type {object}
          * @property {HTMLElement} el - Das HTMLElement, welches geschlossen wird
          */
-        this.emitEvent('beforeItemClose', { el });
+        this.emitEvent("beforeItemClose", { el });
         this.shrink(el);
 
         if (this.options.allowDeepLink && `#${el.id}` === window.location.hash) {
@@ -179,7 +185,7 @@ export class Accordion extends Base {
          * @type {object}
          * @property {HTMLElement} el - Das HTMLElement, welches geschlossen wurde
          */
-        this.emitEvent('afterItemClose', { el });
+        this.emitEvent("afterItemClose", { el });
     }
 
     /**
@@ -233,7 +239,7 @@ export class Accordion extends Base {
         /**
          * @event Accordion#beforeDestroy
          */
-        this.emitEvent('beforeDestroy');
+        this.emitEvent("beforeDestroy");
         this.offAll();
         this.accordionItems.forEach((accordionItem) => {
             accordionItem.destroy();
@@ -242,7 +248,7 @@ export class Accordion extends Base {
         /**
          * @event Accordion#afterDestroy
          */
-        this.emitEvent('afterDestroy');
+        this.emitEvent("afterDestroy");
     }
 
     /**
@@ -261,9 +267,12 @@ export class Accordion extends Base {
             item.animation.cancel();
         }
 
-        item.animation = item.el.animate({
-            height: [startHeight, endHeight]
-        }, this.options.animation);
+        item.animation = item.el.animate(
+            {
+                height: [startHeight, endHeight],
+            },
+            this.options.animation,
+        );
 
         item.animation.onfinish = () => {
             item.resetItemStates(item.isOpen);
@@ -273,7 +282,7 @@ export class Accordion extends Base {
              * @type {object}
              * @property {HTMLElement} el - Das HTMLElement, auf welchem die Animation ausgeführt wurde
              */
-            this.emitEvent('afterItemAnimationFinish', { el: item.el });
+            this.emitEvent("afterItemAnimationFinish", { el: item.el });
         };
 
         item.animation.oncancel = () => {
@@ -284,7 +293,7 @@ export class Accordion extends Base {
              * @type {object}
              * @property {HTMLElement} el - Das HTMLElement, auf welchem die Animation abgebrochen wurde
              */
-            this.emitEvent('afterItemAnimationCancel', { el: item.el });
+            this.emitEvent("afterItemAnimationCancel", { el: item.el });
         };
     }
 
@@ -310,7 +319,7 @@ export class Accordion extends Base {
      */
     _scrollIntoView(el) {
         el.scrollIntoView({
-            behavior: 'smooth'
+            behavior: "smooth",
         });
     }
 

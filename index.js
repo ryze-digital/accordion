@@ -1,5 +1,3 @@
-import {Accordion} from './src/scripts/Accordion.js';
+import { Accordion } from "./src/scripts/Accordion.js";
 
-export {
-    Accordion
-};
+export { Accordion };
