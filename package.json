@@ -44,8 +44,8 @@
     "details"
   ],
   "peerDependencies": {
-    "@ryze-digital/js-utilities": "^1.0.0",
-    "@ryze-digital/scss-utilities": "^1.0.0"
+    "@ryze-digital/js-utilities": "^1.2.0",
+    "@ryze-digital/scss-utilities": "^1.1.2"
   },
   "engines": {
     "node": ">=24.15",
