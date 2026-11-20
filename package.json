@@ -9,11 +9,11 @@
   "repository": "github:ryze-digital/accordion",
   "scripts": {
     "lint": "npm-run-all --parallel lint:*",
-    "lint:scripts": "eslint src/scripts/**",
-    "lint:styles": "stylelint src/styles/**",
-    "lint-fix": "npm-run-all --parallel lint-fix:*",
-    "lint-fix:scripts": "npm run lint:scripts -- --fix",
-    "lint-fix:styles": "prettier src/styles/** --write && npm run lint:styles -- --fix",
+    "lint:scripts": "prettier src/scripts ./*.js --check && eslint src/scripts ./*.js",
+    "lint:styles": "prettier src/styles/** ./*.scss --check && stylelint src/styles/** ./*.scss",
+    "lint-fix": "npm-run-all --parallel lint-fix:* --continue-on-error",
+    "lint-fix:scripts": "prettier src/scripts ./*.js --write && npm run lint:scripts -- --fix",
+    "lint-fix:styles": "prettier src/styles/** ./*.scss --write && npm run lint:styles -- --fix",
     "build": "npm-run-all --parallel build:*",
     "build:scripts": "webpack",
     "build:styles": "npm run sass:build",
@@ -29,9 +29,9 @@
     "@ryze-digital/scss-utilities": "^1.0.0"
   },
   "devDependencies": {
-    "@ryze-digital/eslint-config-website": "^1.0.0",
-    "@ryze-digital/prettier-config-website": "^1.0.1",
-    "@ryze-digital/stylelint-config-website": "^1.0.0",
+    "@ryze-digital/eslint-config-website": "^2.0.0",
+    "@ryze-digital/prettier-config-website": "^2.0.0",
+    "@ryze-digital/stylelint-config-website": "^2.0.0",
     "npm-run-all": "^4.1.5",
     "webpack": "^5.99.9",
     "webpack-cli": "^5.1.4"

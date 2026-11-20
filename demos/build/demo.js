@@ -585,14 +585,17 @@ class Accordion extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_0__.
      * @param {string} [options.animation.easing]
      */
     constructor(options = {}) {
-        super({
-            el: document.querySelector('[data-accordion]'),
-            allowDeepLink: true,
-            animation: {
-                duration: 400,
-                easing: 'ease-out'
-            }
-        }, options);
+        super(
+            {
+                el: document.querySelector("[data-accordion]"),
+                allowDeepLink: true,
+                animation: {
+                    duration: 400,
+                    easing: "ease-out",
+                },
+            },
+            options,
+        );
 
         this.#children = Array.from(this.options.el.children);
         this.#isExclusive = this.#hasSameNames();
@@ -603,7 +606,7 @@ class Accordion extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_0__.
      */
     #hasSameNames() {
         const names = this.#children.map((details) => {
-            return details.getAttribute('name');
+            return details.getAttribute("name");
         });
 
         return names.every((name, index, array) => {
@@ -620,10 +623,13 @@ class Accordion extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_0__.
     init() {
         this.accordionItems = [];
         this.#children.forEach((child) => {
-            const accordionItemInstance = new _AccordionItem_js__WEBPACK_IMPORTED_MODULE_1__.AccordionItem({
-                accordion: this,
-                el: child
-            }, this.#isExclusive);
+            const accordionItemInstance = new _AccordionItem_js__WEBPACK_IMPORTED_MODULE_1__.AccordionItem(
+                {
+                    accordion: this,
+                    el: child,
+                },
+                this.#isExclusive,
+            );
 
             this.accordionItems.push(accordionItemInstance);
         });
@@ -635,7 +641,7 @@ class Accordion extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_0__.
         /**
          * @event Accordion#afterInit
          */
-        this.emitEvent('afterInit');
+        this.emitEvent("afterInit");
     }
 
     /**
@@ -696,7 +702,7 @@ class Accordion extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_0__.
          * @type {object}
          * @property {HTMLElement} el - Das HTMLElement, welches geöffnet wird
          */
-        this.emitEvent('beforeItemOpen', { el });
+        this.emitEvent("beforeItemOpen", { el });
         this.expand(el);
 
         if (this.options.allowDeepLink && updateUrl && el.id) {
@@ -708,7 +714,7 @@ class Accordion extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_0__.
          * @type {object}
          * @property {HTMLElement} el - Das HTMLElement, welches geöffnet wurde
          */
-        this.emitEvent('afterItemOpen', { el });
+        this.emitEvent("afterItemOpen", { el });
     }
 
     /**
@@ -726,7 +732,7 @@ class Accordion extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_0__.
          * @type {object}
          * @property {HTMLElement} el - Das HTMLElement, welches geschlossen wird
          */
-        this.emitEvent('beforeItemClose', { el });
+        this.emitEvent("beforeItemClose", { el });
         this.shrink(el);
 
         if (this.options.allowDeepLink && `#${el.id}` === window.location.hash) {
@@ -738,7 +744,7 @@ class Accordion extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_0__.
          * @type {object}
          * @property {HTMLElement} el - Das HTMLElement, welches geschlossen wurde
          */
-        this.emitEvent('afterItemClose', { el });
+        this.emitEvent("afterItemClose", { el });
     }
 
     /**
@@ -792,7 +798,7 @@ class Accordion extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_0__.
         /**
          * @event Accordion#beforeDestroy
          */
-        this.emitEvent('beforeDestroy');
+        this.emitEvent("beforeDestroy");
         this.offAll();
         this.accordionItems.forEach((accordionItem) => {
             accordionItem.destroy();
@@ -801,7 +807,7 @@ class Accordion extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_0__.
         /**
          * @event Accordion#afterDestroy
          */
-        this.emitEvent('afterDestroy');
+        this.emitEvent("afterDestroy");
     }
 
     /**
@@ -820,9 +826,12 @@ class Accordion extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_0__.
             item.animation.cancel();
         }
 
-        item.animation = item.el.animate({
-            height: [startHeight, endHeight]
-        }, this.options.animation);
+        item.animation = item.el.animate(
+            {
+                height: [startHeight, endHeight],
+            },
+            this.options.animation,
+        );
 
         item.animation.onfinish = () => {
             item.resetItemStates(item.isOpen);
@@ -832,7 +841,7 @@ class Accordion extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_0__.
              * @type {object}
              * @property {HTMLElement} el - Das HTMLElement, auf welchem die Animation ausgeführt wurde
              */
-            this.emitEvent('afterItemAnimationFinish', { el: item.el });
+            this.emitEvent("afterItemAnimationFinish", { el: item.el });
         };
 
         item.animation.oncancel = () => {
@@ -843,7 +852,7 @@ class Accordion extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_0__.
              * @type {object}
              * @property {HTMLElement} el - Das HTMLElement, auf welchem die Animation abgebrochen wurde
              */
-            this.emitEvent('afterItemAnimationCancel', { el: item.el });
+            this.emitEvent("afterItemAnimationCancel", { el: item.el });
         };
     }
 
@@ -869,7 +878,7 @@ class Accordion extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_0__.
      */
     _scrollIntoView(el) {
         el.scrollIntoView({
-            behavior: 'smooth'
+            behavior: "smooth",
         });
     }
 
@@ -904,6 +913,7 @@ class Accordion extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_0__.
         });
     }
 }
+
 
 /***/ }),
 
@@ -941,8 +951,8 @@ class AccordionItem extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_
 
         this.#isExclusive = isExclusive;
         this._isOpen = false;
-        this._title = this.el.querySelector('[data-title]');
-        this._content = this.el.querySelector('[data-content]');
+        this._title = this.el.querySelector("[data-title]");
+        this._content = this.el.querySelector("[data-content]");
 
         this._bindEvents();
     }
@@ -951,7 +961,7 @@ class AccordionItem extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_
      * @private
      */
     _bindEvents() {
-        this.on(this._title, 'click', (event) => {
+        this.on(this._title, "click", (event) => {
             event.preventDefault();
 
             this.toggle();
@@ -1005,7 +1015,7 @@ class AccordionItem extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_
     resetItemStates(isOpen) {
         this.isAnimating = false;
         this.el.open = isOpen;
-        this.el.style.height = '';
+        this.el.style.height = "";
         this.animation = null;
     }
 
@@ -1042,6 +1052,7 @@ class AccordionItem extends _ryze_digital_js_utilities__WEBPACK_IMPORTED_MODULE_
         return this.options.el;
     }
 }
+
 
 /***/ })
 
@@ -1112,6 +1123,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   Accordion: () => (/* reexport safe */ _src_scripts_Accordion_js__WEBPACK_IMPORTED_MODULE_0__.Accordion)
 /* harmony export */ });
 /* harmony import */ var _src_scripts_Accordion_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/scripts/Accordion.js */ "./src/scripts/Accordion.js");
+
 
 
 
