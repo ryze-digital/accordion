@@ -1,4 +1,4 @@
-import { Base } from '@ryze-digital/js-utilities';
+import { Base } from "@ryze-digital/js-utilities";
 
 /**
  * Enthält States und Events eines einzelnen Akkordeon Items.
@@ -21,8 +21,8 @@ export class AccordionItem extends Base {
 
         this.#isExclusive = isExclusive;
         this._isOpen = false;
-        this._title = this.el.querySelector('[data-title]');
-        this._content = this.el.querySelector('[data-content]');
+        this._title = this.el.querySelector("[data-title]");
+        this._content = this.el.querySelector("[data-content]");
 
         this._bindEvents();
     }
@@ -31,7 +31,7 @@ export class AccordionItem extends Base {
      * @private
      */
     _bindEvents() {
-        this.on(this._title, 'click', (event) => {
+        this.on(this._title, "click", (event) => {
             event.preventDefault();
 
             this.toggle();
@@ -85,7 +85,7 @@ export class AccordionItem extends Base {
     resetItemStates(isOpen) {
         this.isAnimating = false;
         this.el.open = isOpen;
-        this.el.style.height = '';
+        this.el.style.height = "";
         this.animation = null;
     }
 
